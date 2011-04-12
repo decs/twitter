@@ -1,0 +1,53 @@
+﻿{% load links %}{% load time %}
+
+<h2>{{ perfil.nome }}</h2>
+<p>@{{ perfil }}</p>
+<p>Seguidores:</p>
+<ul>
+{% for seguidor in perfil.seguidores.all %}
+    <li><span class="autor"><a href="{% url perfil seguidor %}">@{{seguidor}}</a></span></li>
+{% endfor %}
+</ul>
+
+<p>Seguindo:</p>
+<ul>
+{% for seguindo in perfil.seguindo.all %}
+    <li><span class="autor"><a href="{% url perfil seguindo %}">@{{seguindo}}</a></span></li>
+{% endfor %}
+</ul>
+
+<p>Bio: {{ perfil.bio }}<br />
+Local: {{ perfil.local }}</p>
+
+<a href="{% url buscar %}?termo=%40{{perfil}}">Menções</a>, <a href="{% url editar %}">Editar</a>, <a href="{% url perfil request.user.get_profile %}">Perfil</a>, <a href="{% url sair %}">Sair</a>
+
+<form action="{% url buscar %}" method="get">
+  {{ busca }}
+    <input type="submit" value="Buscar"/></td>
+</form>
+
+<form method="post">
+ <table class="form">
+ {% csrf_token %}
+  {{ form }}
+
+  <tr>
+   <th>&nbsp;</th>
+   <td><input type="submit" value="Enviar"/></td>
+  </tr>
+ </table>
+</form>
+
+<ul>
+{% for mensagem in mensagens %}
+    <li><span class="autor"><a href="{% url perfil mensagem.autor %}">@{{ mensagem.autor }}</a></span> <span class="mensagem">{{ mensagem.conteudo|usuarios|hashtags }}</span> - <span class="publicacao">{{ mensagem.publicacao|relativo }}</span>
+    - <a href="/?conteudo={{mensagem.responder|urlencode}}">Responder</a>, <a href="/?conteudo={{mensagem.compartilhar|urlencode}}">Compartilhar</a></li>
+{% endfor %}
+</ul>
+
+{% if pagina.has_previous %}
+<a href="{% url principal %}?pag={{pagina.previous_page_number}}">Anterior</a>
+{% endif %}
+{% if pagina.has_next %}
+<a href="{% url principal %}?pag={{pagina.next_page_number}}">Próxima</a>
+{% endif %}

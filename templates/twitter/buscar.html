@@ -1,0 +1,17 @@
+﻿{% load links %}{% load time %}
+
+<h2>Busca: {{termo}}</h2>
+
+<ul>
+{% for mensagem in mensagens %}
+    <li><span class="autor"><a href="{% url perfil mensagem.autor %}">@{{mensagem.autor}}</a></span> <span class="mensagem">{{mensagem.conteudo|usuarios|hashtags}}</span> - <span class="publicacao">{{mensagem.publicacao|relativo}}</span>
+    - <a href="/?conteudo={{mensagem.responder|urlencode}}">Responder</a>, <a href="/?conteudo={{mensagem.compartilhar|urlencode}}">Compartilhar</a></li>
+{% endfor %}
+</ul>
+
+{% if pagina.has_previous %}
+<a href="{% url buscar %}?termo={{termo|urlencode}}&pag={{pagina.previous_page_number}}">Anterior</a>
+{% endif %}
+{% if pagina.has_next %}
+<a href="{% url buscar %}?termo={{termo|urlencode}}&pag={{pagina.next_page_number}}">Próxima</a>
+{% endif %}

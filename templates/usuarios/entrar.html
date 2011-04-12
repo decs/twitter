@@ -1,0 +1,14 @@
+﻿
+<form method="post">
+ <table class="form">
+ {% csrf_token %}
+  {{ form }}
+
+  <tr>
+   <th>&nbsp;</th>
+   <td><input type="submit" value="Entrar"/></td>
+  </tr>
+ </table>
+</form>
+
+<a href="{% url registrar %}">Registrar</a>

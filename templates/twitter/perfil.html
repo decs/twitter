@@ -1,0 +1,42 @@
+﻿{% load links %}{% load time %}
+
+<h2>{{ perfil.nome }}</h2>
+<p>@{{ perfil }}</p>
+<p>Bio: {{ perfil.bio }}<br />
+Local: {{ perfil.local }}</p>
+
+{% if request.user != perfil.user %}
+    {% if not perfil in request.user.get_profile.seguindo.all %}
+<a href="{% url seguir perfil %}">Seguir</a>
+    {% else %}
+<a href="{% url parar perfil %}">Parar</a>
+    {% endif %}
+{% endif %}
+
+<p>Seguidores:</p>
+<ul>
+{% for seguidor in perfil.seguidores.all %}
+    <li><span class="autor"><a href="{% url perfil seguidor %}">@{{seguidor}}</a></span></li>
+{% endfor %}
+</ul>
+
+<p>Seguindo:</p>
+<ul>
+{% for seguindo in perfil.seguindo.all %}
+    <li><span class="autor"><a href="{% url perfil seguindo %}">@{{seguindo}}</a></span></li>
+{% endfor %}
+</ul>
+
+<ul>
+{% for mensagem in mensagens %}
+    <li><span class="mensagem">{{ mensagem.conteudo|usuarios|hashtags }}</span> - <span class="publicacao">{{ mensagem.publicacao|relativo }}</span>
+    - <a href="/?conteudo={{mensagem.responder|urlencode}}">Responder</a>, <a href="/?conteudo={{mensagem.compartilhar|urlencode}}">Compartilhar</a></li>
+{% endfor %}
+</ul>
+
+{% if pagina.has_previous %}
+<a href="{% url perfil perfil %}?pag={{pagina.previous_page_number}}">Anterior</a>
+{% endif %}
+{% if pagina.has_next %}
+<a href="{% url perfil perfil %}?pag={{pagina.next_page_number}}">Próxima</a>
+{% endif %}
