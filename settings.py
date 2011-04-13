@@ -1,4 +1,8 @@
-DEBUG = True
+import os.path
+
+PROJECT_DIR = os.path.dirname(__file__)
+
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
@@ -59,7 +63,7 @@ LOGOUT_URL = '/sair/'
 LOGIN_REDIRECT_URL = '/'
 
 TEMPLATE_DIRS = (
-    'templates/',
+    os.path.join(PROJECT_DIR, "templates"),
 )
 
 INSTALLED_APPS = (
