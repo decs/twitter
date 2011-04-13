@@ -59,7 +59,7 @@ LOGOUT_URL = '/sair/'
 LOGIN_REDIRECT_URL = '/'
 
 TEMPLATE_DIRS = (
-    'templates',
+    'templates/',
 )
 
 INSTALLED_APPS = (
